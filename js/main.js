@@ -1,28 +1,30 @@
-/* eslint-disable prefer-template */
 /* eslint-disable no-console */
 
 // Функция, возвращающая случайное целое число из переданного диапазона включительно.
 //Использованы материалы: https://learn.javascript.ru/task/random-int-min-max
 
-const randomInteger = function (min, max) {
+const getRandomInteger = function (min, max) {
   if (max <= min) {
-    return ('Ошибка. Заданы неверные границы диапазона');
+    console.log('Ошибка! Заданы неверные границы диапазона');
+    return undefined;
   }
-  return ('Случайное число: ' + Math.floor(min + Math.random() * (max + 1 - min)));
+  const randomNumber = Math.floor(min + Math.random() * (max + 1 - min));
+  console.log(`Случайное число: ${randomNumber}`);
+  return (randomNumber);
 };
 
-console.log(randomInteger(0, 49));
+getRandomInteger(0, 49);
 
 
 //Функция для проверки максимальной длины комментария.
 
 const checkLength = function (text, maxLength) {
   if (text.length > maxLength) {
-    console.log('Длина комментария составляет ' + text.length + ', что больше допустимых ' + maxLength + ' символов');
+    console.log(`Длина комментария составляет ${text.length}, что больше допустимых ${maxLength} символов`);
     return false;
   }
-  console.log('Длина комментария составляет ' + text.length + ', что меньше допустимых ' + maxLength + ' символов');
+  console.log(`Длина комментария составляет ${text.length}, что меньше допустимых ${maxLength} символов`);
   return true;
 };
 
-checkLength('Не слишком ли длинный комментарий?', 34);
+checkLength('Не слишком ли длинный комментарий?', 24);
