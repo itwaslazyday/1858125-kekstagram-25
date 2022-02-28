@@ -1,40 +1,8 @@
 /* eslint-disable no-console */
 
-// Структура каждого объекта должна быть следующей:
+const PICTURES_QTY = 25;
 
-// id, число — идентификатор описания. Это число от 1 до 25. Идентификаторы не должны повторяться.
-
-// url, строка — адрес картинки вида photos/{{i}}.jpg, где {{i}} — это число от 1 до 25. Адреса картинок не должны повторяться.
-
-// description, строка — описание фотографии. Описание придумайте самостоятельно.
-
-// likes, число — количество лайков, поставленных фотографии. Случайное число от 15 до 200.
-
-// comments, массив объектов — список комментариев, оставленных другими пользователями к этой фотографии. Количество комментариев к каждой фотографии вы определяете на своё усмотрение. Все комментарии генерируются случайным образом. Пример описания объекта с комментарием:
-
-// {
-//   id: 135,
-//   avatar: 'img/avatar-6.svg',
-//   message: 'В целом всё неплохо. Но не всё.',
-//   name: 'Артём',
-// }
-// У каждого комментария есть идентификатор — id — случайное число. Идентификаторы не должны повторяться.
-
-// Поле avatar — это строка, значение которой формируется по правилу img/avatar-{{случайное число от 1 до 6}}.svg. Аватарки подготовлены в директории img.
-
-// Для формирования текста комментария — message — вам необходимо взять одно или два случайных предложения из представленных ниже:
-
-// Всё отлично!
-// В целом всё неплохо. Но не всё.
-// Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.
-// Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.
-// Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.
-// Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!
-// Имена авторов также должны быть случайными. Набор имён для комментаторов составьте сами. Подставляйте случайное имя в поле name.
-
-const PICTURE_QTY = 25;
-
-const descriptionArray = [
+const descriptions = [
   'Кекс на море',
   'Рабочие будни',
   'Поездка в Испанию',
@@ -62,7 +30,7 @@ const descriptionArray = [
   'Я - красивый!'
 ];
 
-const messageArray = [
+const messages = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -71,7 +39,7 @@ const messageArray = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-const namesArray = [
+const names = [
   'Иван',
   'Хуан',
   'Мария',
@@ -82,48 +50,39 @@ const namesArray = [
   'Ахмед'
 ];
 
-const idArray = [];
-let result;
-function getRandomInteger (a, b, noRepeat, array) {
-  const lower = Math.ceil(Math.min(Math.abs(a), Math.abs(b)));
-  const upper = Math.floor(Math.max(Math.abs(a), Math.abs(b)));
-  result = Math.floor(Math.random() * (upper - lower + 1) + lower);
-  if (noRepeat) {
-    if (array.includes(result)) {return getRandomInteger(a, b, noRepeat, array);}
-    else {
-      array.push(result);
-      return result;
-    }
-  }
+function getRandomInteger (min, max) {
+  const result = Math.floor(Math.random() * (max - min + 1) + min);
   return result;
 }
 
-const commentIdArray = [];
-function getComment () {
+function getComment (id) {
   return ({
-    id: getRandomInteger(1, 1000, true, commentIdArray),
-    avatar: `img/avatar-${getRandomInteger(1, 6, false)}.svg.`,
-    message: messageArray[getRandomInteger(1, messageArray.length - 1, false)],
-    name: namesArray[getRandomInteger(1, namesArray.length - 1, false)]
+    id: id + 1,
+    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg.`,
+    message: messages[getRandomInteger(1, messages.length - 1)],
+    name: names[getRandomInteger(1, names.length - 1)]
   });
 }
 
-function getCommentsArray (commentsQty) {
-  const commentsArray = Array.from({length: commentsQty}, getComment);
-  return commentsArray;
+function getComments (count) {
+  const comments = Array.from({length: count}, (_, idx) => getComment(idx));
+  return comments;
 }
 
-const getPictureDescription = function () {
+function getPictureDescription (id) {
   return ({
-    id: getRandomInteger(1, PICTURE_QTY, true, idArray),
-    url: `photos/${result}.jpg`,
-    description: descriptionArray[result],
-    likes: getRandomInteger(15, 200, false),
-    comments: getCommentsArray(getRandomInteger(1, 5, false))
+    id: id + 1,
+    url: `photos/${id + 1}.jpg`,
+    description: descriptions[id],
+    likes: getRandomInteger(15, 200),
+    comments: getComments(getRandomInteger(1, 5))
   });
-};
+}
 
-const getArrayOfPictures = Array.from({length: PICTURE_QTY}, getPictureDescription);
+function getPictures (count) {
+  const pictures = Array.from({length: count}, (_, idx) => getPictureDescription(idx));
+  return pictures;
+}
 
-console.log(getArrayOfPictures);
+console.log(getPictures(PICTURES_QTY));
 
