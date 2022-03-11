@@ -6,7 +6,7 @@ export function getRandomInteger (min, max) {
 function getComment (id, messages, names) {
   return ({
     id: id + 1,
-    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg.`,
+    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
     message: messages[getRandomInteger(1, messages.length - 1)],
     name: names[getRandomInteger(1, names.length - 1)]
   });
