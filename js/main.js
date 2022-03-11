@@ -1,7 +1,7 @@
-/* eslint-disable no-console */
-
+import {getFragment} from './fragment.js';
 import {getPictures} from './data.js';
+const picturesAmount = 25;
 
-const PICTURES_QTY = 25;
-
-console.log(getPictures(PICTURES_QTY));
+const picturesDescriptions = getPictures(picturesAmount);
+const picturesContainer = document.querySelector('.pictures');
+picturesContainer.append(getFragment(picturesDescriptions));
