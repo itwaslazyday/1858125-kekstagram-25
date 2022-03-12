@@ -1,5 +1,5 @@
-import {getFragment} from './fragment.js';
 import {getPictures} from './data.js';
+import {getFragment} from './fragment.js';
 const picturesAmount = 25;
 
 const picturesDescriptions = getPictures(picturesAmount);
