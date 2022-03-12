@@ -16,3 +16,12 @@ export function getComments (count, messages, names) {
   const comments = Array.from({length: count}, (_, idx) => getComment(idx, messages, names));
   return comments;
 }
+
+export function isEscapeKey (evt) {
+  return evt.key === 'Escape';
+}
+
+export function isEnterKey (evt) {
+  return evt.key === 'Enter';
+}
+

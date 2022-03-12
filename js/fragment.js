@@ -10,7 +10,7 @@ function getPicture (picture) {
   pictureElement.querySelector('.picture__img').alt = picture.description;
   pictureElement.querySelector('.picture__likes').textContent = picture.likes;
   pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
-  pictureElement.addEventListener('click', openPreview(picture));
+  pictureElement.addEventListener('click', () => openPreview(picture));
   return pictureElement;
 }
 

@@ -1,14 +1,13 @@
+import {isEscapeKey} from './util.js';
+
 const bodyElement = document.querySelector('body');
 const preview = document.querySelector('.big-picture');
 const previewImage = preview.querySelector('.big-picture__img').querySelector('img');
 const previewClose = preview.querySelector('.cancel');
-
 const previewCaption = preview.querySelector('.social__caption');
 const previewLikes = preview.querySelector('.likes-count');
-
 const commentsCountBlock = preview.querySelector('.social__comment-count');
 const commentsLoaderBlock = preview.querySelector('.social__comments-loader');
-
 const previewCommentsBlock = preview.querySelector('.social__comments');
 
 
@@ -20,7 +19,6 @@ export function openPreview (photoData) {
   commentsLoaderBlock.classList.add('hidden');
   previewClose.addEventListener('click', onPreviewCloseClick);
   document.addEventListener('keydown', onPreviewEscPress);
-  window.addEventListener('click', windowClick);
   fillPreview(photoData);
 }
 
@@ -53,23 +51,12 @@ function onPreviewCloseClick () {
   commentsLoaderBlock.classList.remove('hidden');
   previewClose.removeEventListener('click', onPreviewCloseClick);
   document.removeEventListener('keydown', onPreviewEscPress);
-  window.removeEventListener('click', windowClick);
 }
 
-//Закрытие модального окна клавишей ESC (возможно, фукнции ниже нужно перенести в утилитарный файл)
-const ESC_KEY_CODE = 27;
+//Закрытие модального окна клавишей ESC
 function onPreviewEscPress (evt) {
-  if (evt.keyCode === ESC_KEY_CODE) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
     onPreviewCloseClick();
   }
 }
-
-//Закрытие модального окна кликом вне его области
-function windowClick(event) {
-  const target = event.target;
-  if (!target.closest('.big-picture__preview') && !target.closest('.cancel')) {
-    onPreviewCloseClick();
-  }
-}
-
-
