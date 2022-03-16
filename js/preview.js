@@ -1,5 +1,7 @@
 import {isEscapeKey} from './util.js';
+import {picturesDescriptions} from './fragment.js';
 
+//Определение переменных
 const bodyElement = document.querySelector('body');
 const preview = document.querySelector('.big-picture');
 const previewImage = preview.querySelector('.big-picture__img').querySelector('img');
@@ -10,16 +12,25 @@ const commentsCountBlock = preview.querySelector('.social__comment-count');
 const commentsLoaderBlock = preview.querySelector('.social__comments-loader');
 const previewCommentsBlock = preview.querySelector('.social__comments');
 
+const picturesContainer = document.querySelector('.pictures');
+picturesContainer.addEventListener('click', (evt) => onContainerClick (evt));
+
+//Проверка клика по изображению из контейнера миниатюр
+function onContainerClick (evt) {
+  if (evt.target.nodeName === 'IMG') {
+    openPreview (evt.target.dataset.pictureId);
+  }
+}
 
 // Открытие фотографии в полноэкранном режиме
-export function openPreview (photoData) {
+export function openPreview (pictureId) {
   bodyElement.classList.add('modal-open');
   preview.classList.remove('hidden');
   commentsCountBlock.classList.add('hidden');
   commentsLoaderBlock.classList.add('hidden');
   previewClose.addEventListener('click', onPreviewCloseClick);
   document.addEventListener('keydown', onPreviewEscPress);
-  fillPreview(photoData);
+  fillPreview(picturesDescriptions[pictureId]);
 }
 
 //Создание шаблона комментария для фото
@@ -31,7 +42,7 @@ function createCommentTemplate (comment) {
 
 //Перенос данных фотографии, после её открытия в полноэкранном режиме
 let comments = [];
-function fillPreview (photoData) {
+export function fillPreview (photoData) {
   previewImage.src = photoData.url;
   previewCaption.textContent = photoData.description;
   previewLikes.textContent = photoData.likes;

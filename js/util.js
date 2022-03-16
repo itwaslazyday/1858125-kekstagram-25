@@ -17,10 +17,12 @@ export function getComments (count, messages, names) {
   return comments;
 }
 
+//Проверка нажатия клавиши Escape
 export function isEscapeKey (evt) {
   return evt.key === 'Escape';
-}
 
+}
+//Проверка нажатия клавиши Enter
 export function isEnterKey (evt) {
   return evt.key === 'Enter';
 }

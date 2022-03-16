@@ -60,7 +60,7 @@ const commentsAmount = {
 
 function getPictureDescription (id) {
   return ({
-    id: id + 1,
+    id: id,
     url: `photos/${id + 1}.jpg`,
     description: descriptions[id],
     likes: getRandomInteger(likesAmount.min, likesAmount.max),
