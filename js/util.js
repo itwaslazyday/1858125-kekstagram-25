@@ -1,4 +1,4 @@
-export function getRandomInteger (min, max) {
+function getRandomInteger (min, max) {
   const result = Math.floor(Math.random() * (max - min + 1) + min);
   return result;
 }
@@ -12,18 +12,19 @@ function getComment (id, messages, names) {
   });
 }
 
-export function getComments (count, messages, names) {
+function getComments (count, messages, names) {
   const comments = Array.from({length: count}, (_, idx) => getComment(idx, messages, names));
   return comments;
 }
 
 //Проверка нажатия клавиши Escape
-export function isEscapeKey (evt) {
+function isEscapeKey (evt) {
   return evt.key === 'Escape';
 
 }
 //Проверка нажатия клавиши Enter
-export function isEnterKey (evt) {
+function isEnterKey (evt) {
   return evt.key === 'Enter';
 }
 
+export {getRandomInteger, getComments, isEscapeKey, isEnterKey};
