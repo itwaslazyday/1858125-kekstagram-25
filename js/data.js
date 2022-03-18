@@ -55,7 +55,7 @@ const likesAmount = {
 
 const commentsAmount = {
   min: 1,
-  max: 5
+  max: 50
 };
 
 function getPictureDescription (id) {
