@@ -1,3 +1,4 @@
+/* eslint-disable no-misleading-character-class */
 
 const uploadForm = document.querySelector('.img-upload__form');
 const hashTagsMaxAmount = 5;
@@ -42,13 +43,12 @@ function validateDescription (value) {
 }
 
 //Создание валидаторов для библиотеки Pristine на указанных полях
-pristine.addValidator(uploadForm.querySelector('.text__hashtags'), validateHashTags, 'Введенные хэш-теги не соответствуют <a href="#" aria-label="Требования к хэш-тегам">требованиям</a>');
+pristine.addValidator(uploadForm.querySelector('.text__hashtags'), validateHashTags, 'Введенные хэш-теги не соответствуют <a class="text__link" href="#" aria-label="Требования к хэш-тегам">требованиям</a>');
 pristine.addValidator(uploadForm.querySelector('.text__description'), validateDescription, `Длина комментария должна быть от 1 до ${descriptionLength} символов`);
 
-//Запуск валидации, отправка формы
-function onUploadFormSubmit (evt) {
-  evt.preventDefault();
+//Запуск валидации перед отправкой формы
+function uploadFormValidate () {
   pristine.validate();
 }
 
-export {onUploadFormSubmit};
+export {uploadFormValidate};

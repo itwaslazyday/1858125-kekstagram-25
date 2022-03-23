@@ -696,6 +696,11 @@ main {
   border-radius: 5px;
 }
 
+.text__link {
+  text-decoration: none;
+  color: #ffe753;
+}
+
 .text__description {
   width: 450px;
   height: 100px;

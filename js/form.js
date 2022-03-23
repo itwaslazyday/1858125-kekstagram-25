@@ -1,6 +1,7 @@
-/* eslint-disable no-console */
 import {isEscapeKey} from './util.js';
-import {onUploadFormSubmit} from './validation.js';
+import {uploadFormValidate} from './validation.js';
+import {setScaleBlock, closeScaleBlock} from './scale.js';
+import {setPictureEffects, closePictureEffects} from './effects.js';
 
 //Объявление переменных
 const bodyElement = document.querySelector('body');
@@ -20,6 +21,8 @@ function openUploadForm () {
   editBlockClose.addEventListener('click', onEditCloseClick);
   document.addEventListener('keydown', onEditEscPress);
   uploadForm.addEventListener('submit', onUploadFormSubmit);
+  setScaleBlock();
+  setPictureEffects();
 }
 //Скрытие блока редактирования кнопкой закрытия
 function onEditCloseClick () {
@@ -29,6 +32,7 @@ function onEditCloseClick () {
   editBlock.classList.add('hidden');
   editBlockClose.removeEventListener('click', onEditCloseClick);
   document.removeEventListener('keydown', onEditEscPress);
+  closePictureEffects();
 }
 //Скрытие блока редактирования по нажатию Esc
 function onEditEscPress (evt) {
@@ -36,4 +40,11 @@ function onEditEscPress (evt) {
     evt.preventDefault();
     onEditCloseClick();
   }
+}
+
+//Отправка формы, вызов валидации, закрытие блока масштабирования
+function onUploadFormSubmit (evt) {
+  evt.preventDefault();
+  uploadFormValidate();
+  closeScaleBlock();
 }
