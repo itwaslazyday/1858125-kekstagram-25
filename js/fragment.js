@@ -1,7 +1,4 @@
-import {getPictures} from './data.js';
-
 //Определение переменных
-const picturesAmount = 25;
 const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture')
   .content
@@ -17,16 +14,15 @@ function getPicture (picture) {
   pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
   return pictureElement;
 }
-//Заполнение фрагмента массивом ссылок
+//Заполнение фрагмента массивом ссылок, вставка фрагмента в разметку, передача массива описаний превью
 function getFragment (pictures) {
   const fragment = document.createDocumentFragment();
   pictures.forEach((picture) => {
     fragment.append(getPicture(picture));
   });
-  return fragment;
+  picturesContainer.append(fragment);
+  return pictures;
 }
 
-//Передача данных фотографии для заполнения шаблона полноразмерного фото
-export const picturesDescriptions = getPictures(picturesAmount);
-picturesContainer.append(getFragment(picturesDescriptions));
+export {getFragment};
 

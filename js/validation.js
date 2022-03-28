@@ -48,7 +48,7 @@ pristine.addValidator(uploadForm.querySelector('.text__description'), validateDe
 
 //Запуск валидации перед отправкой формы
 function uploadFormValidate () {
-  pristine.validate();
+  return pristine.validate();
 }
 
 export {uploadFormValidate};
