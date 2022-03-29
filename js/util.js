@@ -27,4 +27,28 @@ function isEnterKey (evt) {
   return evt.key === 'Enter';
 }
 
-export {getRandomInteger, getComments, isEscapeKey, isEnterKey};
+const ALERT_SHOW_TIME = 2500;
+
+//Показ блока с текстом ошибки при получении ошибки от сервера при загрузке данных
+function showAlert (errorMessage) {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = 10;
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.width = '100%';
+  alertContainer.style.top = '2%';
+  alertContainer.style.fontSize = '18px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.color = '#ffe753';
+  alertContainer.style.fontFamily = '"Open Sans", "Arial", sans-serif';
+  alertContainer.style.lineHeight = '1.5em';
+  alertContainer.style.textTransform = 'none';
+  alertContainer.innerHTML = errorMessage;
+  document.body.append(alertContainer);
+
+  // const errorEmoticon = alertContainer.querySelector('.emoji__size');
+  // errorEmoticon.style.fontSize = '25px';
+
+  setTimeout(() => alertContainer.remove(), ALERT_SHOW_TIME);
+}
+
+export {getRandomInteger, getComments, isEscapeKey, isEnterKey, showAlert};

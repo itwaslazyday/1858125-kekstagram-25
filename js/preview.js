@@ -1,5 +1,7 @@
 import {isEscapeKey} from './util.js';
-import {picturesDescriptions} from './fragment.js';
+import {getFragment} from './fragment.js';
+import {getData} from './api.js';
+import {showAlert} from './util.js';
 
 //Определение переменных
 const bodyElement = document.querySelector('body');
@@ -17,15 +19,6 @@ const picturesContainer = document.querySelector('.pictures');
 const COMMENTS_LIMIT = 5;
 let comments = [];
 let commentsCounter = 0;
-
-picturesContainer.addEventListener('click', (evt) => onContainerClick (evt));
-
-//Проверка клика по изображению из контейнера миниатюр
-function onContainerClick (evt) {
-  if (evt.target.nodeName === 'IMG') {
-    openPreview (evt.target.dataset.pictureId);
-  }
-}
 
 //Создание шаблона комментария для фото
 function createCommentTemplate (comment) {
@@ -86,13 +79,26 @@ function fillPreview (photoData) {
 }
 
 //Открытие превью в полноэкранном режиме
-function openPreview (pictureId) {
+function openPreview (pictureElement) {
   bodyElement.classList.add('modal-open');
   preview.classList.remove('hidden');
   previewClose.addEventListener('click', onPreviewCloseClick);
   document.addEventListener('keydown', onPreviewEscPress);
-  fillPreview(picturesDescriptions[pictureId]);
+  fillPreview(pictureElement);
 }
+
+//Проверка клика по изображению из контейнера миниатюр
+function onContainerClick (evt, pictures) {
+  if (evt.target.nodeName === 'IMG') {
+    const pictureId = evt.target.dataset.pictureId;
+    openPreview (pictures[pictureId]);
+  }
+}
+
+//Загрузка данных фотографий с сервера, вставка фрагмента миниатюр в разметку
+//Передача описаний превью в полноразмерный режим просмотра
+getData(getFragment, showAlert)
+  .then((pictures) => picturesContainer.addEventListener('click', (evt) => onContainerClick (evt, pictures)));
 
 //Закрытие модального окна по клику иконки закрытия
 function onPreviewCloseClick () {
