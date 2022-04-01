@@ -1,20 +1,7 @@
+//Генерация случайного числа в указанных пределах
 function getRandomInteger (min, max) {
   const result = Math.floor(Math.random() * (max - min + 1) + min);
   return result;
-}
-
-function getComment (id, messages, names) {
-  return ({
-    id: id + 1,
-    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-    message: messages[getRandomInteger(1, messages.length - 1)],
-    name: names[getRandomInteger(1, names.length - 1)]
-  });
-}
-
-function getComments (count, messages, names) {
-  const comments = Array.from({length: count}, (_, idx) => getComment(idx, messages, names));
-  return comments;
 }
 
 //Проверка нажатия клавиши Escape
@@ -22,6 +9,7 @@ function isEscapeKey (evt) {
   return evt.key === 'Escape';
 
 }
+
 //Проверка нажатия клавиши Enter
 function isEnterKey (evt) {
   return evt.key === 'Enter';
@@ -44,11 +32,24 @@ function showAlert (errorMessage) {
   alertContainer.style.textTransform = 'none';
   alertContainer.innerHTML = errorMessage;
   document.body.append(alertContainer);
-
-  // const errorEmoticon = alertContainer.querySelector('.emoji__size');
-  // errorEmoticon.style.fontSize = '25px';
-
   setTimeout(() => alertContainer.remove(), ALERT_SHOW_TIME);
 }
 
-export {getRandomInteger, getComments, isEscapeKey, isEnterKey, showAlert};
+//Перемешивание элментов заданного массива случайным образом
+function shuffleArray (array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = getRandomInteger(0, i);
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+
+//Устранение "дребезга" при многократных кликах, обращениях к функциям
+let timeoutId;
+function debounce (callback, timeoutDelay) {
+  clearTimeout(timeoutId);
+  timeoutId = setTimeout(() => callback(), timeoutDelay);
+}
+
+export {isEscapeKey, isEnterKey, showAlert, shuffleArray, debounce};
