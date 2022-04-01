@@ -1,7 +1,6 @@
-import {isEscapeKey} from './util.js';
-import {getFragment} from './fragment.js';
+import {isEscapeKey, showAlert} from './util.js';
+import {setFilters} from './filter.js';
 import {getData} from './api.js';
-import {showAlert} from './util.js';
 
 //Определение переменных
 const bodyElement = document.querySelector('body');
@@ -97,7 +96,7 @@ function onContainerClick (evt, pictures) {
 
 //Загрузка данных фотографий с сервера, вставка фрагмента миниатюр в разметку
 //Передача описаний превью в полноразмерный режим просмотра
-getData(getFragment, showAlert)
+getData(setFilters, showAlert)
   .then((pictures) => picturesContainer.addEventListener('click', (evt) => onContainerClick (evt, pictures)));
 
 //Закрытие модального окна по клику иконки закрытия

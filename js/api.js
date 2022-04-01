@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 //Получение данных миниатюр от сервера методом GET
 function getData (onSuccess, onFail) {
   return fetch('https://25.javascript.pages.academy/kekstagram/data')
