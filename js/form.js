@@ -3,19 +3,24 @@ import {uploadFormValidate} from './validation.js';
 import {setScaleBlock, closeScaleBlock} from './scale.js';
 import {setPictureEffects, closePictureEffects} from './effects.js';
 import {sendData} from './api.js';
+import {showUploadFile} from './upload.js';
 
 //Объявление переменных
 const bodyElement = document.querySelector('body');
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadField = document.querySelector('#upload-file');
+const picturePreview = uploadForm.querySelector('.img-upload__preview img');
 const hashTagsField = uploadForm.querySelector('.text__hashtags');
 const commentField = uploadForm.querySelector('.text__description');
 const editBlock = document.querySelector('.img-upload__overlay');
 const editBlockClose = editBlock.querySelector('.img-upload__cancel');
 const submitButton = uploadForm.querySelector('.img-upload__submit');
 
-//Показ блока редактирования изображения после загрузки изображения
-uploadField.addEventListener('change', () => openUploadForm());
+//Показ окна предпросмотра изображения и блока редактирования после загрузки фото
+uploadField.addEventListener('change', () => {
+  openUploadForm();
+  showUploadFile();
+});
 
 function openUploadForm () {
   bodyElement.classList.add('modal-open');
@@ -30,6 +35,7 @@ function openUploadForm () {
 function onEditCloseClick () {
   uploadForm.reset();
   uploadField.value = '';
+  picturePreview.src = '';
   bodyElement.classList.remove('modal-open');
   editBlock.classList.add('hidden');
   editBlockClose.removeEventListener('click', onEditCloseClick);
@@ -95,7 +101,7 @@ const unblockSubmitButton = () => {
 function onUploadFormSubmit (evt) {
   evt.preventDefault();
 
-  if (!uploadFormValidate()) {
+  if (uploadFormValidate()) {
     blockSubmitButton();
     sendData(
       () => {

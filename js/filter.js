@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import {getFragment} from './fragment.js';
 import {shuffleArray, debounce} from './util.js';
 
