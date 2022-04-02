@@ -674,6 +674,7 @@ main {
  */
 
 .text {
+  position: relative;
   margin: 0;
   padding: 0;
   margin-bottom: 30px;
@@ -713,6 +714,16 @@ main {
   color: #000000;
 
   border-radius: 5px;
+}
+
+.text__error {
+  position: absolute;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -24px;
+  margin: 0;
+  padding: 0;
 }
 
 

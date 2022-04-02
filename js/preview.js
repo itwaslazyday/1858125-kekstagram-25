@@ -94,7 +94,7 @@ function onContainerClick (evt, pictures) {
   }
 }
 
-//Загрузка данных фотографий с сервера, вставка фрагмента миниатюр в разметку
+//Загрузка данных миниатюр с сервера, вставка фрагмента в разметку
 //Передача описаний превью в полноразмерный режим просмотра
 getData(setFilters, showAlert)
   .then((pictures) => picturesContainer.addEventListener('click', (evt) => onContainerClick (evt, pictures)));
@@ -117,5 +117,3 @@ function onPreviewEscPress (evt) {
     onPreviewCloseClick();
   }
 }
-
-export {fillPreview, openPreview};
