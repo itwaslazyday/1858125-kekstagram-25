@@ -1,15 +1,14 @@
-/* eslint-disable no-misleading-character-class */
-
+//Объявление переменных
 const uploadForm = document.querySelector('.img-upload__form');
 const hashTagsField = uploadForm.querySelector('.text__hashtags');
-const commentField = uploadForm.querySelector('.text__description');
-const hashTagsMaxAmount = 5;
-const descriptionLength = 140;
+const HASH_TAGS_MAX_AMOUNT = 5;
+const HASH_TAG_MAX_SYMBOLS = 20;
+let errorMessage = '';
 
 //Шаблон регулярного выражения для проверки вводимых хэш-тегов
-const regularExpression = /^#[A-Za-zА-Яа-яËё0-9]{1,19}$/;
+const regularExpression = /^#[A-Za-zА-Яа-я0-9]{1,19}$/;
 
-const pristine = new Pristine(uploadForm, {
+const pristine = window.Pristine(uploadForm, {
   classTo: 'img-upload__text',
   errorTextParent: 'img-upload__text',
   errorTextTag: 'p',
@@ -17,40 +16,64 @@ const pristine = new Pristine(uploadForm, {
 });
 
 //Получение массива хэш-тегов на основании данных поля, приведение тегов к строчному регистру
-function getHashTagsArray (str) {
+const getSplitArray = (str) => {
   const splitArray = str.split(' ').map((element) => element.toLowerCase());
   return splitArray;
-}
+};
 
-//Проверка на количество хэш-тегов не более hashTagsMaxAmount
-function checkHashTagsAmount (arr) {
-  return arr.length <= hashTagsMaxAmount;
-}
+//Проверка хэш-тегов на соответствие указанным требованиям
+const validateHashTags = (value) => {
+  errorMessage = '';
+  const inputText = value.trim();
 
-//Проверка на отсутствие повторяющихся хэш-тегов
-function checkHashTagsRepeat (arr) {
-  return (arr.every((element) => arr.indexOf(element) === arr.lastIndexOf(element)));
-}
+  if (!inputText) {
+    return true;
+  }
 
-//Проверка валидности поля ввода хэш-тегов
-function validateHashTags (value) {
-  return getHashTagsArray(value).every((element, idx, array) =>
-    (regularExpression.test(element) && checkHashTagsAmount(array) && checkHashTagsRepeat(array)) || (value === '')
-  );
-}
+  const splitArray = getSplitArray(inputText);
+  const hashTagsRules = [
+    {
+      check: splitArray.some((element) => element.indexOf('#', 1) >= 0),
+      error: 'Хэш-теги должны разделяться пробелами'
+    },
+    {
+      check: splitArray.some((element) => !regularExpression.test(element)),
+      error: 'Хэш-тег содержит недопустимые символы, либо состоит из одной решётки'
+    },
+    {
+      check: splitArray.length > HASH_TAGS_MAX_AMOUNT,
+      error: `Нельзя указать больше ${HASH_TAGS_MAX_AMOUNT} хэш-тегов`
+    },
+    {
+      check: splitArray.some((element) => element.length > HASH_TAG_MAX_SYMBOLS),
+      error: `Максимальная длина одного хэш-тега ${HASH_TAG_MAX_SYMBOLS} символов, включая #`
+    },
+    {
+      check: !splitArray.every((element, idx, arr) => arr.indexOf(element) === arr.lastIndexOf(element)),
+      error: 'Хэш-теги не должны повторяться'
+    },
+    {
+      check: splitArray.some((element) => element[0] !== '#'),
+      error: 'Хэш-тег должен начинаться с символа #'
+    },
+  ];
 
-//Проверка длины введенного комментария не более descriptionLength
-function validateDescription (value) {
-  return value.length <= descriptionLength;
-}
+  return hashTagsRules.every((rule) => {
+    const isInvalid = rule.check;
+    if (isInvalid) {
+      errorMessage = rule.error;
+    }
+    return !isInvalid;
+  });
+};
+
+//Показ сообщения об ошибке на основании работы функции validateHashTags
+const showErrorMessage = () => errorMessage;
 
 //Создание валидаторов pristine на указанных полях, если туда что-либо введено
-pristine.addValidator(hashTagsField, validateHashTags, 'Введенные хэш-теги не соответствуют <a class="text__link" href="#" aria-label="Требования к хэш-тегам">требованиям</a>');
-pristine.addValidator(commentField, validateDescription, `Длина комментария должна быть от 1 до ${descriptionLength} символов`);
+pristine.addValidator(hashTagsField, validateHashTags, showErrorMessage);
 
 //Запуск валидации перед отправкой формы
-function uploadFormValidate () {
-  return pristine.validate();
-}
+const uploadFormValidate = () => pristine.validate();
 
 export {uploadFormValidate};

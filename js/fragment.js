@@ -1,11 +1,11 @@
-//Определение переменных
+//Объявление переменных
 const picturesContainer = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
 //Создание единичного элемента фрагмента
-function getPicture (picture) {
+const getPicture = (picture) => {
   const pictureElement = pictureTemplate.cloneNode(true);
   pictureElement.querySelector('.picture__img').src = picture.url;
   pictureElement.querySelector('.picture__img').alt = picture.description;
@@ -13,16 +13,17 @@ function getPicture (picture) {
   pictureElement.querySelector('.picture__likes').textContent = picture.likes;
   pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
   return pictureElement;
-}
+};
+
 //Заполнение фрагмента массивом ссылок, вставка фрагмента в разметку, передача массива описаний превью
-function getFragment (pictures) {
+const getFragment = (pictures) => {
   const fragment = document.createDocumentFragment();
   pictures.forEach((picture) => {
     fragment.append(getPicture(picture));
   });
   picturesContainer.append(fragment);
   return pictures;
-}
+};
 
 export {getFragment};
 

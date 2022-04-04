@@ -1,4 +1,4 @@
-//Определение переменных
+//Объявление переменных
 const uploadForm = document.querySelector('.img-upload__form');
 const picturePreview = uploadForm.querySelector('.img-upload__preview');
 const pictureView = picturePreview.querySelector('img');
@@ -80,14 +80,14 @@ noUiSlider.create(intensitySlider,
 );
 
 //Сброс примененных эффектов с изображения после закрытия формы, выбора оригинала
-function resetPictureView () {
+const resetPictureView = () => {
   intensityPanel.style = 'display: none';
   pictureView.style = 'filter: none';
   pictureView.className = '';
-}
+};
 
 //Запись данных из слайдера в скрытое поле, и в фильтр интенсивности наложенного эффекта
-function changeIntensityValue (effect) {
+const changeIntensityValue = (effect) => {
   intensitySlider.noUiSlider.updateOptions(sliderSettings[effect]);
   intensitySlider.noUiSlider.on('update', () => {
     const intensity = intensitySlider.noUiSlider.get();
@@ -96,10 +96,10 @@ function changeIntensityValue (effect) {
     const effectUnit = filterSettings[effect].unit;
     pictureView.style = `filter: ${effectCommand}(${intensity}${effectUnit})`;
   });
-}
+};
 
 //Отмена всплытия на радио-кнопках, добавление класса эффекта, вызов и скрытие слайдера интенсивности
-function onEffectClick (evt) {
+const onEffectClick = (evt) => {
   const effectRadio = evt.path[2].querySelector('input');
   effectRadio.addEventListener('click', (e) => e.stopPropagation());
   const chosenEffect = evt.target.classList[1];
@@ -112,17 +112,17 @@ function onEffectClick (evt) {
   } else {
     resetPictureView();
   }
-}
+};
 
 //Делегирование клика с эффекта на список, вызов обработчиков
-function setPictureEffects () {
+const setPictureEffects = () => {
   effectsList.addEventListener('click', onEffectClick);
-}
+};
 
 //Полный сброс эффектов с фотографии, удаление обработчиков событий с элементов
-function closePictureEffects () {
+const closePictureEffects = () => {
   effectsList.removeEventListener('click', onEffectClick);
   resetPictureView();
-}
+};
 
 export {setPictureEffects, closePictureEffects};
