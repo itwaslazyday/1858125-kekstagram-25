@@ -3,7 +3,7 @@ const uploadForm = document.querySelector('.img-upload__form');
 const reduceButton = uploadForm.querySelector('.scale__control--smaller');
 const increaseButton = uploadForm.querySelector('.scale__control--bigger');
 const scaleValue = uploadForm.querySelector('.scale__control--value');
-const picturePreview = uploadForm.querySelector('.img-upload__preview');
+const picturePreview = uploadForm.querySelector('.img-upload__preview img');
 const PictureSize = {
   MIN: 25,
   MAX: 100,
